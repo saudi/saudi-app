@@ -1,4 +1,8 @@
 Saudi::Application.routes.draw do
+  resources :policies
+
+  resources :faqs
+
   resources :students
 
   get "welcome/index"

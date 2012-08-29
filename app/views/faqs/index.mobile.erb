@@ -1,0 +1,19 @@
+<div data-role="header">
+  <h1>FAQs</h1>
+  <a href="javascript:history.back()" class = "ui-btn-left" data-role="button">Back</a>
+</div>
+ 
+<div data-role="content">
+  <ul data-role="listview">
+  
+  <% @faqs.each do |faq| %>
+
+      <li>
+      
+        <a href="/faqs/<%= faq.id %>" rel="external"><h3><%= faq.question %></h3></a>
+        
+      </li>
+    
+    <% end %>
+  </ul>
+</div>
