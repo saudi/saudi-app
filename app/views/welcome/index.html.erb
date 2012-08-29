@@ -1,2 +1,188 @@
-<h1>SAUDI PROJECT</h1>
-<p>Welcome to the Saudi project</p>
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Google Maps JavaScript API v3 Example: Custom Controls</title>
+    <link href="/maps/documentation/javascript/examples/default.css" rel="stylesheet">
+    <script src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
+    <script>
+
+      var map;
+      var hostpitalMarker;
+      var dentistMarker;
+      var hospitalPos = new google.maps.LatLng(50.897612, -1.391266);
+      var dentistPos = new google.maps.LatLng(50.897612, -1.301265);
+
+      /**
+       * The HomeControl adds a control to the map that simply
+       * returns the user to Chicago. This constructor takes
+       * the control DIV as an argument.
+       */
+
+      function HomeControl(controlDiv, map) {
+
+        // Set CSS styles for the DIV containing the control
+        // Setting padding to 5 px will offset the control
+        // from the edge of the map
+        controlDiv.style.padding = '5px';
+
+        // Set CSS for the control border
+        var controlUI = document.createElement('div');
+        controlUI.style.backgroundColor = 'white';
+        controlUI.style.borderStyle = 'solid';
+        controlUI.style.borderWidth = '2px';
+        controlUI.style.cursor = 'pointer';
+        controlUI.style.textAlign = 'center';
+        controlUI.title = 'Click to only see hospitals';
+        controlDiv.appendChild(controlUI);
+
+        // Set CSS for the control interior
+        var controlText = document.createElement('div');
+        controlText.style.fontFamily = 'Arial,sans-serif';
+        controlText.style.fontSize = '12px';
+        controlText.style.paddingLeft = '4px';
+        controlText.style.paddingRight = '4px';
+        controlText.innerHTML = '<b>Hospitals</b>';
+        controlUI.appendChild(controlText);
+
+        // Setup the click event listeners: simply set the map to
+        // Chicago
+        google.maps.event.addDomListener(controlUI, 'click', function() {
+          //map.setCenter(chicago)
+         	hostpitalMarker.setMap(map);
+         	dentistMarker.setMap(null);
+        });
+
+      }
+
+      function DentistControl(controlDiv, map) {
+
+        // Set CSS styles for the DIV containing the control
+        // Setting padding to 5 px will offset the control
+        // from the edge of the map
+        controlDiv.style.padding = '5px';
+
+        // Set CSS for the control border
+        var controlUI = document.createElement('div');
+        controlUI.style.backgroundColor = 'white';
+        controlUI.style.borderStyle = 'solid';
+        controlUI.style.borderWidth = '2px';
+        controlUI.style.cursor = 'pointer';
+        controlUI.style.textAlign = 'center';
+        controlUI.title = 'Click to only see hospitals';
+        controlDiv.appendChild(controlUI);
+
+        // Set CSS for the control interior
+        var controlText = document.createElement('div');
+        controlText.style.fontFamily = 'Arial,sans-serif';
+        controlText.style.fontSize = '12px';
+        controlText.style.paddingLeft = '4px';
+        controlText.style.paddingRight = '4px';
+        controlText.innerHTML = '<b>Dentists</b>';
+        controlUI.appendChild(controlText);
+
+        // Setup the click event listeners: simply set the map to
+        // Chicago
+        google.maps.event.addDomListener(controlUI, 'click', function() {
+          //map.setCenter(chicago)
+          hostpitalMarker.setMap(null);
+          dentistMarker.setMap(map);
+        });
+
+      }
+
+      function AllControl(controlDiv, map) {
+
+        // Set CSS styles for the DIV containing the control
+        // Setting padding to 5 px will offset the control
+        // from the edge of the map
+        controlDiv.style.padding = '5px';
+
+        // Set CSS for the control border
+        var controlUI = document.createElement('div');
+        controlUI.style.backgroundColor = 'white';
+        controlUI.style.borderStyle = 'solid';
+        controlUI.style.borderWidth = '2px';
+        controlUI.style.cursor = 'pointer';
+        controlUI.style.textAlign = 'center';
+        controlUI.title = 'Click to only see hospitals';
+        controlDiv.appendChild(controlUI);
+
+        // Set CSS for the control interior
+        var controlText = document.createElement('div');
+        controlText.style.fontFamily = 'Arial,sans-serif';
+        controlText.style.fontSize = '12px';
+        controlText.style.paddingLeft = '4px';
+        controlText.style.paddingRight = '4px';
+        controlText.innerHTML = '<b>All</b>';
+        controlUI.appendChild(controlText);
+
+        // Setup the click event listeners: simply set the map to
+        // Chicago
+        google.maps.event.addDomListener(controlUI, 'click', function() {
+          //map.setCenter(chicago)
+          hostpitalMarker.setMap(map);
+          dentistMarker.setMap(map);
+        });
+
+      }
+
+      function initialize() {
+        var mapDiv = document.getElementById('map_canvas');
+        var mapOptions = {
+          zoom: 11,
+          center: hospitalPos,
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+        }
+        map = new google.maps.Map(mapDiv, mapOptions);
+
+        hostpitalMarker = new google.maps.Marker({
+		    //position: map.getCenter(),
+		    //map: map,
+		    position: hospitalPos,
+		    title: 'hostpital',
+		    animation: google.maps.Animation.DROP
+
+  		});
+
+
+
+  		dentistMarker = new google.maps.Marker({
+		    position: dentistPos,
+		    //map: map,
+		    title: 'dentist',
+		    animation: google.maps.Animation.DROP
+  		});
+
+
+
+        //Hospital controls
+        var homeControlDiv = document.createElement('div');
+        var homeControl = new HomeControl(homeControlDiv, map);
+
+        homeControlDiv.index = 1;
+        map.controls[google.maps.ControlPosition.TOP_RIGHT].push(homeControlDiv);
+
+        // Dentist controls
+        var dentistControlDiv = document.createElement('div');
+        var dentistControl = new DentistControl(dentistControlDiv, map);
+
+        dentistControlDiv.index = 2;
+        map.controls[google.maps.ControlPosition.TOP_RIGHT].push(dentistControlDiv);
+
+        // dispaly all controls
+        var allControlDiv = document.createElement('div');
+        var allControl = new AllControl(allControlDiv, map);
+
+        allControlDiv.index = 2;
+        map.controls[google.maps.ControlPosition.TOP_RIGHT].push(allControlDiv);
+      }
+
+    </script>
+  </head>
+  <body onload="initialize()">
+    <div id="map_canvas" style="width:500px;height:400px;"></div>
+  </body>
+</html>
